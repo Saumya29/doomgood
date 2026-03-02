@@ -2,9 +2,8 @@ import { neon } from '@neondatabase/serverless'
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
-
 export async function GET(request: NextRequest) {
+  const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
   const { searchParams } = new URL(request.url)
   const moodId = searchParams.get('mood_id')
 

@@ -4,9 +4,8 @@ import { BottomNav } from '@/components/bottom-nav'
 import { SignOutButton } from '@/components/sign-out-button'
 import { neon } from '@neondatabase/serverless'
 
-const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
-
 export default async function ProfilePage() {
+  const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 

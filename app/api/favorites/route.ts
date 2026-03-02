@@ -2,11 +2,10 @@ import { neon } from '@neondatabase/serverless'
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
-const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
-
 // POST — toggle favorite
 export async function POST(request: NextRequest) {
   try {
+    const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -50,6 +49,7 @@ export async function POST(request: NextRequest) {
 // GET — fetch user's favorited stories
 export async function GET() {
   try {
+    const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
 

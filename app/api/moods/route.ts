@@ -1,10 +1,9 @@
 import { neon } from '@neondatabase/serverless'
 import { NextResponse } from 'next/server'
 
-const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
-
 export async function GET() {
   try {
+    const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
     const moods = await sql`
       SELECT id, label, emoji, color_from, color_to, sort_order
       FROM public.moods

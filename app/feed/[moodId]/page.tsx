@@ -5,13 +5,12 @@ import { StoryFeed } from '@/components/story-feed'
 import { BottomNav } from '@/components/bottom-nav'
 import type { Mood } from '@/lib/types'
 
-const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
-
 interface FeedPageProps {
   params: Promise<{ moodId: string }>
 }
 
 export default async function FeedPage({ params }: FeedPageProps) {
+  const sql = neon(process.env.POSTGRES_URL ?? process.env.POSTGRES_URL_NON_POOLING!)
   const { moodId } = await params
 
   const moods = await sql`
