@@ -5,6 +5,8 @@ import { StoryFeed } from '@/components/story-feed'
 import { BottomNav } from '@/components/bottom-nav'
 import type { Mood } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 interface FeedPageProps {
   params: Promise<{ moodId: string }>
 }

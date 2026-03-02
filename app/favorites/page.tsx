@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { BottomNav } from '@/components/bottom-nav'
 import { FavoritesList } from '@/components/favorites-list'
 
+export const dynamic = 'force-dynamic'
+
 export default async function FavoritesPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
