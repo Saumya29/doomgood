@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DoomGood
 
-## Getting Started
+Scroll for your soul, not your sanity.
 
-First, run the development server:
+## Demo
+
+<video src="demo.mp4" width="100%" autoplay loop muted playsinline></video>
+
+![Demo](demo.gif)
+
+## Why I built this
+
+Every time I felt anxious or low, I'd open my phone and scroll - but the usual feeds only made it worse. I wanted something different: a place where scrolling actually helps. Real stories from real people who felt exactly the same way, so you know you're not alone.
+
+## What it does
+
+Pick a mood - Anxious, Sad, Lonely, Overwhelmed, or any of the 10 options - and get a TikTok-style feed of real stories from people who've been there. Snap-scroll through them, save the ones that resonate.
+
+- **Mood selector** - 10 moods, each with its own visual identity and curated stories
+- **Story feed** - full-screen snap-scroll cards with real, anonymous stories
+- **Save stories** - heart the ones that hit home, find them later in Saved
+- **Dark mode** - easy on the eyes, especially at 3am
+
+## Stack
+
+- **Framework:** Next.js 15 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Auth:** Supabase
+- **Database:** Neon PostgreSQL
+- **Deployment:** Vercel
+
+## Running locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## License
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
