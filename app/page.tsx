@@ -1,35 +1,15 @@
-import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
 import { MoodGrid } from '@/components/mood-grid'
+import { BottomNav } from '@/components/bottom-nav'
 
-export default async function HomePage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col pb-24">
       {/* Header */}
       <header className="flex items-center justify-between px-6 pt-12 pb-2">
         <div>
           <h1 className="font-serif text-2xl font-bold text-foreground tracking-tight">DoomGood</h1>
           <p className="text-muted-foreground text-xs mt-0.5">You are not alone.</p>
         </div>
-        {user ? (
-          <Link
-            href="/profile"
-            className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-foreground text-sm font-medium"
-            aria-label="Profile"
-          >
-            {user.email?.[0]?.toUpperCase() ?? 'U'}
-          </Link>
-        ) : (
-          <Link
-            href="/auth/login"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Sign in
-          </Link>
-        )}
       </header>
 
       {/* Hero copy */}
@@ -45,6 +25,8 @@ export default async function HomePage() {
 
         <MoodGrid />
       </main>
+
+      <BottomNav />
     </div>
   )
 }

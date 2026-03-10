@@ -1,4 +1,3 @@
-import { createClient } from '@/lib/supabase/server'
 import { neon } from '@neondatabase/serverless'
 import { notFound } from 'next/navigation'
 import { StoryFeed } from '@/components/story-feed'
@@ -23,15 +22,11 @@ export default async function FeedPage({ params }: FeedPageProps) {
 
   if (!mood) notFound()
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
   return (
     <div className="relative h-screen overflow-hidden bg-background">
       <StoryFeed
         moodId={mood.id}
         moodLabel={mood.label}
-        isAuthenticated={!!user}
       />
       <BottomNav />
     </div>

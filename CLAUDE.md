@@ -5,7 +5,6 @@
 ## Tech Stack
 - Next.js 15 (App Router) + TypeScript
 - Tailwind CSS v4 + shadcn/ui (New York style)
-- Supabase Auth (email/password)
 - Neon PostgreSQL (serverless)
 - pnpm
 
@@ -17,22 +16,19 @@
 ## Architecture
 - `app/` — Next.js App Router pages and API routes
 - `components/` — React components (ui/ for shadcn primitives)
-- `lib/supabase/` — Supabase client (server.ts, client.ts, middleware.ts)
 - `lib/mood-colors.ts` — mood-to-gradient color mapping
+- `hooks/use-favorites.ts` — localStorage-based favorites
 - `hooks/` — custom React hooks
 - `scripts/` — SQL migrations and seed data
-- `middleware.ts` — Supabase session refresh + route protection
 
 ## Database
-- Neon PostgreSQL with 3 tables: moods, stories, favorites
-- RLS enabled on all tables
-- Moods and stories are public read; favorites scoped to user
+- Neon PostgreSQL with 2 active tables: moods, stories
+- Moods and stories are public read
+- Favorites stored client-side in localStorage (no auth required)
 
-## Auth Flow
-- Supabase email/password auth
-- middleware.ts refreshes session on every request
-- Protected routes: /feed, /favorites, /profile
-- Anonymous users can browse moods/stories but cannot favorite
+## No Auth
+- No authentication — app is fully open to all visitors
+- Favorites are stored in browser localStorage per device
 
 ## Conventions
 - Dark mode only

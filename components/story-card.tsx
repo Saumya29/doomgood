@@ -1,40 +1,18 @@
 'use client'
 
-import { useState } from 'react'
 import { Heart } from 'lucide-react'
-import type { StoryWithFavorite } from '@/lib/types'
+import type { Story } from '@/lib/types'
 import { getMoodColors } from '@/lib/mood-colors'
 
 interface StoryCardProps {
-  story: StoryWithFavorite
+  story: Story
   moodId: string
-  isAuthenticated: boolean
-  onFavoriteToggle: (storyId: string, newState: boolean) => void
+  isFavorited: boolean
+  onFavoriteToggle: () => void
 }
 
-export function StoryCard({ story, moodId, isAuthenticated, onFavoriteToggle }: StoryCardProps) {
-  const [favorited, setFavorited] = useState(story.is_favorited ?? false)
-  const [toggling, setToggling] = useState(false)
+export function StoryCard({ story, moodId, isFavorited, onFavoriteToggle }: StoryCardProps) {
   const colors = getMoodColors(moodId)
-
-  async function handleFavorite() {
-    if (!isAuthenticated) return
-    setToggling(true)
-    try {
-      const res = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ story_id: story.id }),
-      })
-      const data = await res.json()
-      setFavorited(data.favorited)
-      onFavoriteToggle(story.id, data.favorited)
-    } catch {
-      // silent fail
-    } finally {
-      setToggling(false)
-    }
-  }
 
   return (
     <div
@@ -70,22 +48,19 @@ export function StoryCard({ story, moodId, isAuthenticated, onFavoriteToggle }: 
       </div>
 
       {/* Favorite button */}
-      {isAuthenticated && (
-        <button
-          onClick={handleFavorite}
-          disabled={toggling}
-          aria-label={favorited ? 'Remove from saved' : 'Save story'}
-          className="absolute bottom-24 right-6 z-10 w-12 h-12 rounded-full flex items-center justify-center transition-transform active:scale-90"
-          style={{ background: 'rgba(0,0,0,0.4)' }}
-        >
-          <Heart
-            size={22}
-            strokeWidth={2}
-            className={favorited ? 'fill-current' : ''}
-            style={{ color: favorited ? '#f87171' : colors.text }}
-          />
-        </button>
-      )}
+      <button
+        onClick={onFavoriteToggle}
+        aria-label={isFavorited ? 'Remove from saved' : 'Save story'}
+        className="absolute bottom-24 right-6 z-10 w-12 h-12 rounded-full flex items-center justify-center transition-transform active:scale-90"
+        style={{ background: 'rgba(0,0,0,0.4)' }}
+      >
+        <Heart
+          size={22}
+          strokeWidth={2}
+          className={isFavorited ? 'fill-current' : ''}
+          style={{ color: isFavorited ? '#f87171' : colors.text }}
+        />
+      </button>
 
       {/* Scroll hint on first card */}
       <div
