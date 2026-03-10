@@ -1,16 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 import { BottomNav } from '@/components/bottom-nav'
 import { FavoritesList } from '@/components/favorites-list'
 
-export const dynamic = 'force-dynamic'
-
-export default async function FavoritesPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) redirect('/auth/login')
-
+export default function FavoritesPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col pb-24">
       <header className="px-6 pt-12 pb-6">

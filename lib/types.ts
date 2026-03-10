@@ -16,13 +16,3 @@ export type Story = {
   created_at: string
 }
 
-export type Favorite = {
-  id: string
-  user_id: string
-  story_id: string
-  created_at: string
-}
-
-export type StoryWithFavorite = Story & {
-  is_favorited?: boolean
-}

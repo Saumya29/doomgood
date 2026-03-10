@@ -1,23 +1,24 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import type { StoryWithFavorite } from '@/lib/types'
+import type { Story } from '@/lib/types'
 import { StoryCard } from '@/components/story-card'
 import { getMoodColors } from '@/lib/mood-colors'
+import { useFavorites } from '@/hooks/use-favorites'
 
 interface StoryFeedProps {
   moodId: string
   moodLabel: string
-  isAuthenticated: boolean
 }
 
-export function StoryFeed({ moodId, moodLabel, isAuthenticated }: StoryFeedProps) {
-  const [stories, setStories] = useState<StoryWithFavorite[]>([])
+export function StoryFeed({ moodId, moodLabel }: StoryFeedProps) {
+  const [stories, setStories] = useState<Story[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const colors = getMoodColors(moodId)
+  const { isFavorited, toggleFavorite } = useFavorites()
 
   useEffect(() => {
     fetch(`/api/stories?mood_id=${moodId}`)
@@ -28,12 +29,6 @@ export function StoryFeed({ moodId, moodLabel, isAuthenticated }: StoryFeedProps
       })
       .catch(() => setLoading(false))
   }, [moodId])
-
-  function handleFavoriteToggle(storyId: string, newState: boolean) {
-    setStories(prev =>
-      prev.map(s => s.id === storyId ? { ...s, is_favorited: newState } : s)
-    )
-  }
 
   if (loading) {
     return (
@@ -54,7 +49,7 @@ export function StoryFeed({ moodId, moodLabel, isAuthenticated }: StoryFeedProps
       >
         <p className="text-white/80 text-lg font-serif">No stories yet for this mood.</p>
         <button
-          onClick={() => router.push('/mood')}
+          onClick={() => router.push('/')}
           className="text-sm text-white/60 underline underline-offset-2"
         >
           Go back
@@ -67,7 +62,7 @@ export function StoryFeed({ moodId, moodLabel, isAuthenticated }: StoryFeedProps
     <div className="relative h-screen">
       {/* Back button overlay */}
       <button
-        onClick={() => router.push('/mood')}
+        onClick={() => router.push('/')}
         aria-label="Go back to mood selector"
         className="absolute top-12 left-4 z-20 w-10 h-10 rounded-full flex items-center justify-center"
         style={{ background: 'rgba(0,0,0,0.35)' }}
@@ -94,8 +89,8 @@ export function StoryFeed({ moodId, moodLabel, isAuthenticated }: StoryFeedProps
             <StoryCard
               story={story}
               moodId={moodId}
-              isAuthenticated={isAuthenticated}
-              onFavoriteToggle={handleFavoriteToggle}
+              isFavorited={isFavorited(story.id)}
+              onFavoriteToggle={() => toggleFavorite(story.id)}
             />
           </div>
         ))}

@@ -2,12 +2,12 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Heart, User } from 'lucide-react'
+import { Home, Heart, Info } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { href: '/mood', label: 'Home', icon: Home },
+  { href: '/', label: 'Home', icon: Home },
   { href: '/favorites', label: 'Saved', icon: Heart },
-  { href: '/profile', label: 'Profile', icon: User },
+  { href: '/profile', label: 'About', icon: Info },
 ]
 
 export function BottomNav() {
@@ -20,7 +20,7 @@ export function BottomNav() {
       aria-label="Main navigation"
     >
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-        const active = pathname.startsWith(href)
+        const active = href === '/' ? pathname === '/' : pathname.startsWith(href)
         return (
           <Link
             key={href}

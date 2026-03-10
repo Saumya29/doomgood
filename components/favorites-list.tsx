@@ -3,34 +3,39 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Heart, BookOpen } from 'lucide-react'
-import type { StoryWithFavorite } from '@/lib/types'
+import type { Story } from '@/lib/types'
 import { getMoodColors } from '@/lib/mood-colors'
+import { useFavorites } from '@/hooks/use-favorites'
 
 export function FavoritesList() {
-  const [stories, setStories] = useState<StoryWithFavorite[]>([])
+  const [stories, setStories] = useState<Story[]>([])
   const [loading, setLoading] = useState(true)
+  const { favorites, toggleFavorite } = useFavorites()
 
   useEffect(() => {
-    fetch('/api/favorites')
+    const ids = [...favorites]
+    if (ids.length === 0) {
+      setStories([])
+      setLoading(false)
+      return
+    }
+
+    fetch('/api/favorites', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ story_ids: ids }),
+    })
       .then(r => r.json())
       .then(data => {
         setStories(data.stories ?? [])
         setLoading(false)
       })
       .catch(() => setLoading(false))
-  }, [])
+  }, [favorites])
 
-  async function handleUnfavorite(storyId: string) {
-    try {
-      await fetch('/api/favorites', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ story_id: storyId }),
-      })
-      setStories(prev => prev.filter(s => s.id !== storyId))
-    } catch {
-      // silent
-    }
+  function handleUnfavorite(storyId: string) {
+    toggleFavorite(storyId)
+    setStories(prev => prev.filter(s => s.id !== storyId))
   }
 
   if (loading) {
@@ -56,7 +61,7 @@ export function FavoritesList() {
           </p>
         </div>
         <Link
-          href="/mood"
+          href="/"
           className="mt-2 bg-primary text-primary-foreground text-sm font-medium px-6 py-3 rounded-lg"
         >
           Find stories
